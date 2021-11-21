@@ -1,7 +1,9 @@
 import vlc
 import time
 
-p=vlc.MediaPlayer("file:///../SoundHelix-Song-1.mp3")
+songPath='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
+
+p=vlc.MediaPlayer(songPath)
 p.play()
 time.sleep(10)
 p.stop()
