@@ -1,8 +1,15 @@
 import RPi.GPIO as GPIO
 import time
+import vlc
 
+
+SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
+MAXDISTANCE=100
 TRIG = 16
 ECHO = 18
+
+P=vlc.MediaPlayer(SONGPATH)
+
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -29,13 +36,17 @@ def distance():
     return during * 340 / 2 * 100
 
 def loop():
+    P.play()
     while True:
         dis = distance()
+        volume = int (dis/MAXDISTANCE*100)
         print ('Distance: %.2f' % dis)
+        result = P.audio_set_volume(volume)
         time.sleep(0.3)
 
 def destroy():
     GPIO.cleanup()
+    P.stop()
 
 if __name__ == "__main__":
     setup()
