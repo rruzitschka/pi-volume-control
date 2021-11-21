@@ -4,7 +4,7 @@ import vlc
 
 
 SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
-MAXDISTANCE=100
+MAXDISTANCE=60
 TRIG = 16
 ECHO = 18
 
