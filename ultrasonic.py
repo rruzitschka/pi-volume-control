@@ -5,8 +5,7 @@ import vlc
 
 SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
 MAXDISTANCE=60   #the maximum distance that I consider
-TRIG = 16
-ECHO = 18
+
 
 #This tuple holds the trigger and Echo GPIOs for each connected sensor
 #Example for two Ultrasonic sensors: sensors = ((TRIG1,ECHO1), (TRIG2, ECHO2))
@@ -44,7 +43,6 @@ def single_sensor_distance(trig_port, echo_port):
     return during * 340 / 2 * 100
 
 #collect distance from all sensors and provide it as list
-
 def loop_over_all_sensors():
     distances = {}
     for sens in sensors:
@@ -53,7 +51,8 @@ def loop_over_all_sensors():
     return distances
 
 #this function returns the aggregated distance value calculated from the distance values received from multiple sensors
-#it takes a set of distances as argument and returns asingel aggregated distance value
+#it takes a set of distances as argument and returns a single aggregated distance value
+
 def aggregated_distance(distances):
     
 # as a first step this function returns the average distance as reported by the sensor set
@@ -64,11 +63,11 @@ def aggregated_distance(distances):
             sum_distance += dis
 
     aggregated_dis = sum_distance/len(distances)
-    print ('Aggregated Distance: %.2f' % dis)
+    print ('Aggregated Distance: %.2f' % aggregated_dis)
     return aggregated_dis
 
 
-#volume calculates the volume based on the distance from the sensor
+#volume calculates the volume based on the distance from the sensor and returns the volume
 def volume(dis):
     volume = int (dis/MAXDISTANCE*100)
     return volume
@@ -80,11 +79,11 @@ def loop():
     while True:
         # loop over all sensors and collect distances set
         distances = loop_over_all_sensors()
-        print(distances)
+        print("Theses are the individula distances:", distances)
         # calculate the aggregated effective distance
         vol_dis = aggregated_distance(distances)
-        print ('Distance: %.2f' % vol_dis)
-        #set the volume based on the effective distance
+        print ('Aggregated Distance: %.2f' % vol_dis)
+        #set the volume based on the aggregated distance
         result = P.audio_set_volume(volume(vol_dis))
         time.sleep(0.3)
 
