@@ -18,7 +18,7 @@ volume_data=[]  # holds teh time series of volume data that we use for plotting
 #if you one to add a new sensor just add a a tuple to the sensors set
 sensors = set()
 sensors.add((16,18)) # add first sensor
-sensors.add((35,37)) # add second sensor
+#sensors.add((35,37)) # add second sensor
 
 
 P=vlc.MediaPlayer(SONGPATH)
