@@ -72,6 +72,8 @@ def aggregated_distance(distances):
 
     sum_distance = 0
     for dis in distances:
+            if dis > MAXDISTANCE:
+                 dis = MAXDISTANCE
             sum_distance += dis
 
     aggregated_dis = sum_distance/len(distances)
@@ -80,6 +82,7 @@ def aggregated_distance(distances):
 
 #volume calculates the volume based on the distance from the sensor and returns the volume
 def volume(dis):
+
     volume = int (dis/MAXDISTANCE*100)
     return volume
 
