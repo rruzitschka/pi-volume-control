@@ -98,18 +98,16 @@ def new_volume(current_volume, dis):
 #this function implements the smoothing algorithm
 def smooth_volume(current_volume, new_volume):
     dif=new_volume - current_volume
-    print ("Volume before smoothing:", new_volume)
     if math.fabs(dif)>MAX_VOLUME_STEP:
         if dif>0:
-            new_volume += MAX_VOLUME_STEP
+            new_volume = current_volume + MAX_VOLUME_STEP
         if dif<0:
-            new_volume -= MAX_VOLUME_STEP
+            new_volume -= current_volume - MAX_VOLUME_STEP
     
     if new_volume>100:
         new_volume=100
     if new_volume<0:
         new_volume=0
-    print ("Volume after smoothing:", new_volume)
 
     return new_volume
 
