@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
 MAXDISTANCE=60   #the maximum distance that I consider
-
+START_VOLUME=20 #the starting volume for the sound player
 
 #This set holds the trigger and Echo GPIOs for each connected sensor
 #if you one to add a new sensor just add a a tuple to the sensors set
@@ -80,15 +80,35 @@ def aggregated_distance(distances):
     return aggregated_dis
 
 
-#volume calculates the volume based on the distance from the sensor and returns the volume
-def volume(dis):
+#new_volume calculates the new volume based on the distance from the sensor and returns the volume
+#it also smoothes out the volume gradient
 
-    volume = int (dis/MAXDISTANCE*100)
+def new_volume(current_volume, dis):
+    new_volume_from_distance = int (dis/MAXDISTANCE*100)
+    volume = smooth_volume (current_volume, new_volume_from_distance)
     return volume
 
 
+#this function implements the smoothing algorithm
+def smooth_volume(current_volume, new_volume):
+    dif=new_volume - current_volume
+    if math.fabs(dif)>10:
+        if dif>0:
+            new_volume += 10
+        if div<0:
+            new_volume -= 10
+    
+    if new_volume>100:
+        new_volume=100
+    if new_volume<0:
+        new_volume=0
+
+    return new_volume
+
 
 def loop():
+    result = P.audio_set_volume(START_VOLUME)
+    current_volume=START_VOLUME
     P.play()
     while True:
         # loop over all sensors and collect distances set
@@ -98,7 +118,8 @@ def loop():
         vol_dis = aggregated_distance(distances)
         print ('Aggregated Distance: %.2f' % vol_dis)
         #set the volume based on the aggregated distance
-        result = P.audio_set_volume(volume(vol_dis))
+        current_volume=new_volume(current_volume, vol_dis)
+        result = P.audio_set_volume(current_volume)
         time.sleep(0.2)
 
 def destroy():
