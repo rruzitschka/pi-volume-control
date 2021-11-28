@@ -90,7 +90,7 @@ def aggregated_distance(distances):
 
 def new_volume(current_volume, dis):
     new_volume_from_distance = int (dis/MAXDISTANCE*100)
-    volume = smooth_volume (current_volume, new_volume_from_distance)
+    volume = smooth_volume(current_volume, new_volume_from_distance)
     return volume
 
 
