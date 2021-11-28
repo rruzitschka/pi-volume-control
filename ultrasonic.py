@@ -91,6 +91,7 @@ def aggregated_distance(distances):
 def new_volume(current_volume, dis):
     new_volume_from_distance = int (dis/MAXDISTANCE*100)
     volume = smooth_volume(current_volume, new_volume_from_distance)
+    print("CurretntVolume:", current_volume, " New Volume: ", volume)
     return volume
 
 
@@ -127,7 +128,7 @@ def loop():
         current_volume=new_volume(current_volume, vol_dis)
         result = P.audio_set_volume(current_volume)
         volume_data.append(current_volume)
-        print(volume_data)
+        #print(volume_data)
         time.sleep(0.2)
 
 def destroy():
@@ -141,4 +142,4 @@ if __name__ == "__main__":
     try:
         loop()
     except KeyboardInterrupt:
-        destroy()
+        destroy() 
