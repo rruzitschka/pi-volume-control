@@ -43,6 +43,7 @@ def single_sensor_distance(trig_port, echo_port):
     time2 = time.time()
 
     during = time2 - time1
+    print(during * 340 / 2 * 100)
     return during * 340 / 2 * 100
 
 
