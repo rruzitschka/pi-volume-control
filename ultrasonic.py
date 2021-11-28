@@ -54,6 +54,7 @@ def mock_single_sensor_distance(trig_port, echo_port):
 def loop_over_all_sensors():
     distances = set()
     for sens in sensors:
+        print("I am in sensor loop for sensor :",sens[0], sens[1])
         x=single_sensor_distance(sens[0], sens[1])
         distances.add(single_sensor_distance(sens[0], sens[1]))
         print(x)
