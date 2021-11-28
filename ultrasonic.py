@@ -131,6 +131,7 @@ def loop():
 
 def destroy():
     plot_volume_curve.plot_volume(volume_data)
+    print(volume_data)
     GPIO.cleanup()
     P.stop()
 
