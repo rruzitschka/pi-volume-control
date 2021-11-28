@@ -130,7 +130,7 @@ def loop():
         time.sleep(0.2)
 
 def destroy():
-    plot_volume_curve.plot_volume(volume_data)
+ #   plot_volume_curve.plot_volume(volume_data)
     print(volume_data)
     GPIO.cleanup()
     P.stop()
