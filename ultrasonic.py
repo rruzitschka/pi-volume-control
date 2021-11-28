@@ -83,7 +83,7 @@ def volume(dis):
 
 
 def loop():
-   P.play()
+    P.play()
     while True:
         # loop over all sensors and collect distances set
         distances = loop_over_all_sensors()
