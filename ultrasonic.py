@@ -127,6 +127,7 @@ def loop():
         current_volume=new_volume(current_volume, vol_dis)
         result = P.audio_set_volume(current_volume)
         volume_data.append(current_volume)
+        print(volume_data)
         time.sleep(0.2)
 
 def destroy():
