@@ -102,7 +102,7 @@ def smooth_volume(current_volume, new_volume):
         if dif>0:
             new_volume = current_volume + MAX_VOLUME_STEP
         if dif<0:
-            new_volume -= current_volume - MAX_VOLUME_STEP
+            new_volume = current_volume - MAX_VOLUME_STEP
     
     if new_volume>100:
         new_volume=100
