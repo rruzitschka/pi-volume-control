@@ -44,7 +44,7 @@ def single_sensor_distance(trig_port, echo_port):
     time2 = time.time()
 
     during = time2 - time1
-    print(during * 340 / 2 * 100)
+
     return during * 340 / 2 * 100
 
 
@@ -93,7 +93,7 @@ def loop():
     while True:
         # loop over all sensors and collect distances set
         distances = loop_over_all_sensors()
-        print("Theses are the individula distances:", distances)
+        print("Theses are the individual distances:", distances)
         # calculate the aggregated effective distance
         vol_dis = aggregated_distance(distances)
         print ('Aggregated Distance: %.2f' % vol_dis)
