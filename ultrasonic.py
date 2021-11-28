@@ -1,15 +1,18 @@
 import RPi.GPIO as GPIO
 import time
 import vlc
+import random
+from unittest.mock import patch
 
 
 SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
 MAXDISTANCE=60   #the maximum distance that I consider
 
 
-#This tuple holds the trigger and Echo GPIOs for each connected sensor
-#Example for two Ultrasonic sensors: sensors = ((TRIG1,ECHO1), (TRIG2, ECHO2))
-sensors = ((16,18))
+#This set holds the trigger and Echo GPIOs for each connected sensor
+#if you one to add a new sensor just add a a tuple to the sensors set
+sensors = set()
+sensors.add((16,18)) # add first sensor
 
 
 P=vlc.MediaPlayer(SONGPATH)
@@ -42,10 +45,16 @@ def single_sensor_distance(trig_port, echo_port):
     during = time2 - time1
     return during * 340 / 2 * 100
 
+
+def mock_single_sensor_distance(trig_port, echo_port):
+    return random.randrange(3,60)
+
+
 #collect distance from all sensors and provide it as list
 def loop_over_all_sensors():
-    distances = {}
+    distances = set()
     for sens in sensors:
+        x=single_sensor_distance(sens[0], sens[1])
         distances.add(single_sensor_distance(sens[0], sens[1]))
 
     return distances
@@ -63,7 +72,6 @@ def aggregated_distance(distances):
             sum_distance += dis
 
     aggregated_dis = sum_distance/len(distances)
-    print ('Aggregated Distance: %.2f' % aggregated_dis)
     return aggregated_dis
 
 
@@ -75,7 +83,7 @@ def volume(dis):
 
 
 def loop():
-    P.play()
+   P.play()
     while True:
         # loop over all sensors and collect distances set
         distances = loop_over_all_sensors()
@@ -92,7 +100,7 @@ def destroy():
     P.stop()
 
 if __name__ == "__main__":
-    setup()
+ #   setup()
     try:
         loop()
     except KeyboardInterrupt:
