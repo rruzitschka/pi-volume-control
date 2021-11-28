@@ -99,7 +99,7 @@ def loop():
         print ('Aggregated Distance: %.2f' % vol_dis)
         #set the volume based on the aggregated distance
         result = P.audio_set_volume(volume(vol_dis))
-        time.sleep(0.3)
+        time.sleep(0.2)
 
 def destroy():
     GPIO.cleanup()
