@@ -56,6 +56,7 @@ def loop_over_all_sensors():
     for sens in sensors:
         x=single_sensor_distance(sens[0], sens[1])
         distances.add(single_sensor_distance(sens[0], sens[1]))
+        print(x)
 
     return distances
 
