@@ -125,9 +125,10 @@ def loop():
         vol_dis = aggregated_distance(distances)
         print ('Aggregated Distance: %.2f' % vol_dis)
         #set the volume based on the aggregated distance
-        current_volume=new_volume(current_volume, vol_dis)
-        result = P.audio_set_volume(current_volume)
-        volume_data.append(current_volume)
+        new_vol=new_volume(current_volume, vol_dis)
+        result = P.audio_set_volume(new_vol)
+        volume_data.append(new_vol)
+        current_volume=new_vol
         #print(volume_data)
         time.sleep(0.2)
 
