@@ -5,4 +5,4 @@ import matplotlib.pyplot as plt
 
 def plot_volume(volume):
     plt.plot(volume)
-    plt.show()
+    plt.show(block=True)
