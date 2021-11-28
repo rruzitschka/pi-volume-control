@@ -96,7 +96,7 @@ def smooth_volume(current_volume, new_volume):
     if math.fabs(dif)>10:
         if dif>0:
             new_volume += 10
-        if div<0:
+        if dif<0:
             new_volume -= 10
     
     if new_volume>100:
