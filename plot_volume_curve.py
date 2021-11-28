@@ -1,6 +1,6 @@
 import numpy as np
 import math
-import matlabplot.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 def plot_volume(volume):
