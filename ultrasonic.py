@@ -100,7 +100,7 @@ def destroy():
     P.stop()
 
 if __name__ == "__main__":
- #   setup()
+    setup()
     try:
         loop()
     except KeyboardInterrupt:
