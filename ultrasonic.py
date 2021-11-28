@@ -3,12 +3,16 @@ import time
 import vlc
 import random
 import math
+import matplotlib.pyplot as plt 
+import plot_volume_curve
 from unittest.mock import patch
 
 
 SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
 MAXDISTANCE=60   #the maximum distance that I consider
 START_VOLUME=20 #the starting volume for the sound player
+MAX_VOLUME_STEP=5 # how much can the volume change after each mesaurement cycle
+volume_data=[]  # holds teh time series of volume data that we use for plotting
 
 #This set holds the trigger and Echo GPIOs for each connected sensor
 #if you one to add a new sensor just add a a tuple to the sensors set
@@ -93,11 +97,11 @@ def new_volume(current_volume, dis):
 #this function implements the smoothing algorithm
 def smooth_volume(current_volume, new_volume):
     dif=new_volume - current_volume
-    if math.fabs(dif)>10:
+    if math.fabs(dif)>MAX_VOLUME_STEP:
         if dif>0:
-            new_volume += 10
+            new_volume += MAX_VOLUME_STEP
         if dif<0:
-            new_volume -= 10
+            new_volume -= MAX_VOLUME_STEP
     
     if new_volume>100:
         new_volume=100
@@ -108,6 +112,7 @@ def smooth_volume(current_volume, new_volume):
 
 
 def loop():
+    global volume_data
     result = P.audio_set_volume(START_VOLUME)
     current_volume=START_VOLUME
     P.play()
@@ -121,9 +126,11 @@ def loop():
         #set the volume based on the aggregated distance
         current_volume=new_volume(current_volume, vol_dis)
         result = P.audio_set_volume(current_volume)
+        volume_data.append(current_volume)
         time.sleep(0.2)
 
 def destroy():
+    plot_volume_curve.plot_volume(volume_data)
     GPIO.cleanup()
     P.stop()
 
