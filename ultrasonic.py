@@ -11,7 +11,7 @@ from unittest.mock import patch
 SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
 MAXDISTANCE=30   #the maximum distance that I consider
 START_VOLUME=20 #the starting volume for the sound player
-MAX_VOLUME_STEP=5 # how much can the volume change after each mesaurement cycle
+MAX_VOLUME_STEP=10 # how much can the volume change after each mesaurement cycle
 volume_data=[]  # holds teh time series of volume data that we use for plotting
 
 #This set holds the trigger and Echo GPIOs for each connected sensor
