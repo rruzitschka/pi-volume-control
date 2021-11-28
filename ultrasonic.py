@@ -91,13 +91,14 @@ def aggregated_distance(distances):
 def new_volume(current_volume, dis):
     new_volume_from_distance = int (dis/MAXDISTANCE*100)
     volume = smooth_volume(current_volume, new_volume_from_distance)
-    print("CurretntVolume:", current_volume, " New Volume: ", volume)
+    print("CurrentVolume:", current_volume, " New Volume: ", volume)
     return volume
 
 
 #this function implements the smoothing algorithm
 def smooth_volume(current_volume, new_volume):
     dif=new_volume - current_volume
+    print ("Volume before smoothing:", new_volume)
     if math.fabs(dif)>MAX_VOLUME_STEP:
         if dif>0:
             new_volume += MAX_VOLUME_STEP
@@ -108,6 +109,7 @@ def smooth_volume(current_volume, new_volume):
         new_volume=100
     if new_volume<0:
         new_volume=0
+    print ("Volume after smoothing:", new_volume)
 
     return new_volume
 
