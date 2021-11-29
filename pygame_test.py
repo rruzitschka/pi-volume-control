@@ -1,3 +1,7 @@
+# to test how pygame.mixer.music works
+
+
+
 import pygame
 import time
 

@@ -18,7 +18,7 @@ volume_data=[]  # holds the time series of volume data that we use for plotting
 logging.basicConfig(filename='ultrasonic.log')
 
 #This set holds the trigger and Echo GPIOs for each connected sensor
-#if you one to add a new sensor just add a a tuple to the sensors set
+#if you want to add a new sensor just add a a tuple to the sensors set
 sensors = set()
 sensors.add((16,18)) # add first sensor
 #sensors.add((35,37)) # add second sensor
@@ -113,7 +113,7 @@ def smooth_volume(current_volume, new_volume):
 
     return new_volume
 
-
+#main loop
 def loop():
     global volume_data
     current_volume=START_VOLUME
@@ -134,8 +134,7 @@ def loop():
         time.sleep(0.2)
 
 def destroy():
-    plot_volume_curve.plot_volume(volume_data)
-    print(volume_data)
+    plot_volume_curve.plot_volume(volume_data) #creates the distance graph file volume_graph.png
     GPIO.cleanup()
     pygame.mixer.music.stop()
 
