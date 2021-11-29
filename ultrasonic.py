@@ -6,6 +6,9 @@ import math
 import logging
 import plot_volume_curve
 from unittest.mock import patch
+import os
+
+
 
 
 SONGPATH='/home/pi/raspi-dev/rain.mp3' #path to the soundfile that is looped
@@ -24,6 +27,16 @@ sensors.add((16,18)) # add first sensor
 #sensors.add((35,37)) # add second sensor
 
 pygame.mixer.init() #inits the pygame class
+
+
+
+def writePidFile():
+    pid = str(os.getpid())
+    currentFile = open(‘/usr/local/ultrasonic.pid’, ‘w’)
+    currentFile.write(pid)
+    currentFile.close()
+
+
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -139,6 +152,7 @@ def destroy():
     pygame.mixer.music.stop()
 
 if __name__ == "__main__":
+    writePidFile()
     setup()
     try:
         loop()
