@@ -6,10 +6,11 @@ pygame.mixer.music.load("/home/pi/raspi-dev/rain.mp3")
 pygame.mixer.music.play(-1)
 
 while True:
-   
+    volume=1
     for volume in range(100):
         pygame.mixer.music.set_volume(volume/100)
-        time.sleep(5)
+        print(Volume:", volume")
+        time.sleep(2)
  
         
 pygame.mixer.stop()   
