@@ -19,6 +19,7 @@ volume_data=[]  # holds the time series of volume data that we use for plotting
 
 # configure the logfile
 logging.basicConfig(filename='ultrasonic.log')
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
 #This set holds the trigger and Echo GPIOs for each connected sensor
 #if you want to add a new sensor just add a a tuple to the sensors set
@@ -39,10 +40,12 @@ def writePidFile():
 
 
 def setup():
+    logging.info("Ultrasonic started up")
     GPIO.setmode(GPIO.BOARD)
     for sens in sensors:
         GPIO.setup(sens[0], GPIO.OUT)
         GPIO.setup(sens[1], GPIO.IN)
+        logging.info("Sensor ", sens, "initialized")
 
 
 #this funtion returns the distance from one sensor connected to the respective ports
@@ -150,6 +153,7 @@ def destroy():
     plot_volume_curve.plot_volume(volume_data) #creates the distance graph file volume_graph.png
     GPIO.cleanup()
     pygame.mixer.music.stop()
+    logging.info("Ultrasonic terminated orderly")
 
 if __name__ == "__main__":
     writePidFile()
