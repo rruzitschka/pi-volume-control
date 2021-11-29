@@ -18,8 +18,7 @@ MAX_VOLUME_STEP=0.1 # how much can the volume change after each mesaurement cycl
 volume_data=[]  # holds the time series of volume data that we use for plotting
 
 # configure the logfile
-logging.basicConfig(filename='ultrasonic.log')
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.basicConfig(filename='ultrasonic.log', format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
 
 #This set holds the trigger and Echo GPIOs for each connected sensor
 #if you want to add a new sensor just add a a tuple to the sensors set
