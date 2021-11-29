@@ -3,7 +3,7 @@ import time
 import vlc
 import random
 import math
-import matplotlib.pyplot as plt 
+import logging
 import plot_volume_curve
 from unittest.mock import patch
 
@@ -13,6 +13,9 @@ MAXDISTANCE=30   #the maximum distance that I consider
 START_VOLUME=20 #the starting volume for the sound player
 MAX_VOLUME_STEP=10 # how much can the volume change after each mesaurement cycle
 volume_data=[]  # holds teh time series of volume data that we use for plotting
+
+# configure the logfile
+logging.basicConfig(filename='ultrasonic.log')
 
 #This set holds the trigger and Echo GPIOs for each connected sensor
 #if you one to add a new sensor just add a a tuple to the sensors set
