@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
-import vlc
+# import vlc
+import pygame
 import random
 import math
 import logging
@@ -10,8 +11,8 @@ from unittest.mock import patch
 
 SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
 MAXDISTANCE=30   #the maximum distance that I consider
-START_VOLUME=20 #the starting volume for the sound player
-MAX_VOLUME_STEP=10 # how much can the volume change after each mesaurement cycle
+START_VOLUME=0.2 #the starting volume for the sound player
+MAX_VOLUME_STEP=0.1 # how much can the volume change after each mesaurement cycle
 volume_data=[]  # holds teh time series of volume data that we use for plotting
 
 # configure the logfile
@@ -24,8 +25,9 @@ sensors.add((16,18)) # add first sensor
 #sensors.add((35,37)) # add second sensor
 
 
-P=vlc.MediaPlayer(SONGPATH)
+#P=vlc.MediaPlayer(SONGPATH)
 
+pygame.mixer.init()
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -92,7 +94,7 @@ def aggregated_distance(distances):
 #it also smoothes out the volume gradient
 
 def new_volume(current_volume, dis):
-    new_volume_from_distance = int (dis/MAXDISTANCE*100)
+    new_volume_from_distance = dis/MAXDISTANCE
     volume = smooth_volume(current_volume, new_volume_from_distance)
     print("CurrentVolume:", current_volume, " New Volume: ", volume)
     return volume
@@ -107,8 +109,8 @@ def smooth_volume(current_volume, new_volume):
         if dif<0:
             new_volume = current_volume - MAX_VOLUME_STEP
     
-    if new_volume>100:
-        new_volume=100
+    if new_volume>1:
+        new_volume=1
     if new_volume<0:
         new_volume=0
 
@@ -117,9 +119,10 @@ def smooth_volume(current_volume, new_volume):
 
 def loop():
     global volume_data
-    result = P.audio_set_volume(START_VOLUME)
+#    result = P.audio_set_volume(START_VOLUME)
     current_volume=START_VOLUME
-    P.play()
+    pygame.mixer.music.load(SONGPATH)
+    pygame.mixer.music.play(-1)
     while True:
         # loop over all sensors and collect distances set
         distances = loop_over_all_sensors()
@@ -129,7 +132,8 @@ def loop():
         print ('Aggregated Distance: %.2f' % vol_dis)
         #set the volume based on the aggregated distance
         new_vol=new_volume(current_volume, vol_dis)
-        result = P.audio_set_volume(new_vol)
+ #       result = P.audio_set_volume(new_vol)
+        pygame.mixer.music.set_volume(new_volume)
         volume_data.append(new_vol)
         current_volume=new_vol
         #print(volume_data)
@@ -139,7 +143,7 @@ def destroy():
     plot_volume_curve.plot_volume(volume_data)
     print(volume_data)
     GPIO.cleanup()
-    P.stop()
+    pygame.mixer.music.stop()
 
 if __name__ == "__main__":
     setup()
