@@ -32,7 +32,7 @@ pygame.mixer.init() #inits the pygame class
 
 def writePidFile():
     pid = str(os.getpid())
-    currentFile = open("/usr/local/ultrasonic.pid", ‘w’)
+    currentFile = open("/usr/local/ultrasonic.pid", "w")
     currentFile.write(pid)
     currentFile.close()
 
