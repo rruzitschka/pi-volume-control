@@ -9,7 +9,7 @@ while True:
     volume=1
     for volume in range(100):
         pygame.mixer.music.set_volume(volume/100)
-        print(Volume:", volume")
+        print("Volume:", volume)
         time.sleep(2)
  
         
