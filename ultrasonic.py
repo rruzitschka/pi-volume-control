@@ -9,7 +9,7 @@ import plot_volume_curve
 from unittest.mock import patch
 
 
-SONGPATH='/home/pi/raspi-dev/SoundHelix-Song-1.mp3'
+SONGPATH='/home/pi/raspi-dev/rain.mp3'
 MAXDISTANCE=30   #the maximum distance that I consider
 START_VOLUME=0.2 #the starting volume for the sound player
 MAX_VOLUME_STEP=0.1 # how much can the volume change after each mesaurement cycle
