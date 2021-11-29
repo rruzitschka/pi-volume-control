@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-# import vlc
 import pygame
 import random
 import math
@@ -9,11 +8,11 @@ import plot_volume_curve
 from unittest.mock import patch
 
 
-SONGPATH='/home/pi/raspi-dev/rain.mp3'
-MAXDISTANCE=30   #the maximum distance that I consider
+SONGPATH='/home/pi/raspi-dev/rain.mp3' #path to the soundfile that is looped
+MAXDISTANCE=25   #the maximum distance that I consider
 START_VOLUME=0.2 #the starting volume for the sound player
 MAX_VOLUME_STEP=0.1 # how much can the volume change after each mesaurement cycle
-volume_data=[]  # holds teh time series of volume data that we use for plotting
+volume_data=[]  # holds the time series of volume data that we use for plotting
 
 # configure the logfile
 logging.basicConfig(filename='ultrasonic.log')
@@ -24,10 +23,7 @@ sensors = set()
 sensors.add((16,18)) # add first sensor
 #sensors.add((35,37)) # add second sensor
 
-
-#P=vlc.MediaPlayer(SONGPATH)
-
-pygame.mixer.init()
+pygame.mixer.init() #inits the pygame class
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -58,6 +54,7 @@ def single_sensor_distance(trig_port, echo_port):
     return during * 340 / 2 * 100
 
 
+#this function just mocks a sensor for testing
 def mock_single_sensor_distance(trig_port, echo_port):
     return random.randrange(3,60)
 
@@ -119,7 +116,6 @@ def smooth_volume(current_volume, new_volume):
 
 def loop():
     global volume_data
-#    result = P.audio_set_volume(START_VOLUME)
     current_volume=START_VOLUME
     pygame.mixer.music.load(SONGPATH)
     pygame.mixer.music.play(-1)
@@ -132,11 +128,9 @@ def loop():
         print ('Aggregated Distance: %.2f' % vol_dis)
         #set the volume based on the aggregated distance
         new_vol=new_volume(current_volume, vol_dis)
- #       result = P.audio_set_volume(new_vol)
         pygame.mixer.music.set_volume(new_vol)
         volume_data.append(new_vol)
         current_volume=new_vol
-        #print(volume_data)
         time.sleep(0.2)
 
 def destroy():
