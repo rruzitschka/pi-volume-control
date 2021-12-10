@@ -29,7 +29,7 @@ sensors.add((16,18)) # add first sensor
 pygame.mixer.init() #inits the pygame class
 
 
-
+# after startup the PID is written to the file and can be picked up by the monitoring tool
 def writePidFile():
     pid = str(os.getpid())
     currentFile = open("ultrasonic.pid", "w")
@@ -40,11 +40,12 @@ def writePidFile():
 
 def setup():
     logging.info("Ultrasonic started up")
+    GPIO.cleanup()
     GPIO.setmode(GPIO.BOARD)
     for sens in sensors:
         GPIO.setup(sens[0], GPIO.OUT)
         GPIO.setup(sens[1], GPIO.IN)
-        logging.info("Sensor ", sens, "initialized")
+        logging.info("Sensor ", sens, "initialized!")
 
 
 #this funtion returns the distance from one sensor connected to the respective ports
