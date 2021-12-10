@@ -144,7 +144,8 @@ def loop():
         print ('Aggregated Distance: %.2f' % vol_dis)
         #set the volume based on the aggregated distance
         new_vol=new_volume(current_volume, vol_dis)
-        pygame.mixer.music.set_volume(new_vol)
+        if new_vol != current_volume:
+            pygame.mixer.music.set_volume(new_vol)
         volume_data.append(new_vol)
         current_volume=new_vol
         time.sleep(0.2)
