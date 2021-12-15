@@ -39,13 +39,16 @@ def writePidFile():
 
 
 def setup():
+    logging.info("##################################################")
     logging.info("Ultrasonic started up")
+    logging.info("##################################################")
     GPIO.cleanup()
     GPIO.setmode(GPIO.BOARD)
     for sens in sensors:
         GPIO.setup(sens[0], GPIO.OUT)
         GPIO.setup(sens[1], GPIO.IN)
         logging.info('Sensor %s initialized!', sens)
+        logging.info("##################################################")
 
 
 #this funtion returns the distance from one sensor connected to the respective ports
@@ -155,7 +158,9 @@ def destroy():
     plot_volume_curve.plot_volume(volume_data) #creates the distance graph file volume_graph.png
     GPIO.cleanup()
     pygame.mixer.music.stop()
+    logging.info("##################################################")
     logging.info("Ultrasonic terminated orderly")
+    logging.info("##################################################")
 
 if __name__ == "__main__":
     writePidFile()
