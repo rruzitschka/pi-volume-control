@@ -45,7 +45,7 @@ def setup():
     for sens in sensors:
         GPIO.setup(sens[0], GPIO.OUT)
         GPIO.setup(sens[1], GPIO.IN)
-        logging.info('Sensor ', sens, 'initialized!')
+        logging.info('Sensor %s initialized!', sens)
 
 
 #this funtion returns the distance from one sensor connected to the respective ports
@@ -146,7 +146,7 @@ def loop():
         new_vol=round(new_volume(current_volume, vol_dis), 2)
         if new_vol != current_volume:
             pygame.mixer.music.set_volume(new_vol)
-            logging.info('New Volume set', new_vol)
+            logging.info('New Volume set: %s', new_vol)
         volume_data.append(new_vol)
         current_volume=new_vol
         time.sleep(0.2)
