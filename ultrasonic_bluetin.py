@@ -26,10 +26,6 @@ samples = 3
 
 
 
-
-
-
-
 SONGPATH='/home/pi/raspi-dev/rain.mp3' #path to the soundfile that is looped
 MAXDISTANCE=25   #the maximum distance that I consider
 START_VOLUME=0.2 #the starting volume for the sound player
@@ -185,7 +181,7 @@ def destroy():
 
 if __name__ == "__main__":
     writePidFile()
-    setup()
+ #   setup()
     try:
         loop()
     except KeyboardInterrupt:
