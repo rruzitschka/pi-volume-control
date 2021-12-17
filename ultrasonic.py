@@ -14,7 +14,7 @@ import os
 SONGPATH='/home/pi/raspi-dev/rain.mp3' #path to the soundfile that is looped
 MAXDISTANCE=25   #the maximum distance that I consider
 START_VOLUME=0.2 #the starting volume for the sound player
-MAX_VOLUME_STEP=0.1 # how much can the volume change after each mesaurement cycle
+MAX_VOLUME_STEP=0.1 # how much can the volume change after each measurement cycle
 volume_data=[]  # holds the time series of volume data that we use for plotting
 
 # configure the logfile
@@ -83,8 +83,7 @@ def loop_over_all_sensors():
     distances = set()
     for sens in sensors:
         print("I am in sensor loop for sensor :",sens[0], sens[1])
-        x=single_sensor_distance(sens[0], sens[1])
-        distances.add(single_sensor_distance(sens[0], sens[1]))
+        distances.add(mock_single_sensor_distance(sens[0], sens[1]))
 
     return distances
 
