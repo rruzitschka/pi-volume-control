@@ -10,7 +10,7 @@ echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound)
 # Measure Distance 5 times, return average.
 samples = 5
 # Take multiple measurements.
-for counter in range(0, 10):
+for counter in range(0, 100000):
     result = echo.read('cm', samples)
     # Print result.
     print(result, 'cm')
