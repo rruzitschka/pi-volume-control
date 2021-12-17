@@ -75,7 +75,7 @@ def single_sensor_distance(trig_port, echo_port):
 
 #this function just mocks a sensor for testing
 def mock_single_sensor_distance(trig_port, echo_port):
-    return random.randrange(3,60)
+    return random.randrange(2,30)
 
 
 #collect distance from all sensors and provide it as list
@@ -147,7 +147,7 @@ def loop():
         #set the volume based on the aggregated distance
         new_vol=round(new_volume(current_volume, vol_dis), 2)
         if new_vol != current_volume:
-           # pygame.mixer.music.set_volume(new_vol)
+            pygame.mixer.music.set_volume(new_vol)
             logging.info('New Volume set: %s', new_vol)
         volume_data.append(new_vol)
         current_volume=new_vol
