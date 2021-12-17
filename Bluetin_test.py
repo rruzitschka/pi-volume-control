@@ -5,10 +5,10 @@ from Bluetin_Echo import Echo
 TRIGGER_PIN = 23
 ECHO_PIN = 24
 # Initialise Sensor with pins, speed of sound.
-speed_of_sound = 315
+speed_of_sound = 340
 echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound)
 # Measure Distance 5 times, return average.
-samples = 5
+samples = 3
 # Take multiple measurements.
 for counter in range(0, 100000):
     result = echo.read('cm', samples)
