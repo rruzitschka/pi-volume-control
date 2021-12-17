@@ -89,7 +89,7 @@ def single_sensor_distance(trig_port, echo_port):
 
 
 def echo_single_sensor_distance(trig_port, echo_port):
-       result = echo.read('cm', samples)
+       return echo.read('cm', samples)
 
 #this function just mocks a sensor for testing
 def mock_single_sensor_distance(trig_port, echo_port):
