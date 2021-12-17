@@ -83,7 +83,7 @@ def loop_over_all_sensors():
     distances = set()
     for sens in sensors:
         print("I am in sensor loop for sensor :",sens[0], sens[1])
-        distances.add(mock_single_sensor_distance(sens[0], sens[1]))
+        distances.add(single_sensor_distance(sens[0], sens[1]))
 
     return distances
 
@@ -151,7 +151,7 @@ def loop():
             logging.info('New Volume set: %s', new_vol)
         volume_data.append(new_vol)
         current_volume=new_vol
-        time.sleep(0.2)
+        time.sleep(0.3)
 
 def destroy():
     plot_volume_curve.plot_volume(volume_data) #creates the distance graph file volume_graph.png
