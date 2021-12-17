@@ -128,7 +128,7 @@ def smooth_volume(current_volume, new_volume):
         new_volume=1
     if new_volume<0:
         new_volume=0
-
+    new_volume=round(new_volume,2)
     return new_volume
 
 #main loop
@@ -145,7 +145,7 @@ def loop():
         vol_dis = aggregated_distance(distances)
         print ('Aggregated Distance: %.2f' % vol_dis)
         #set the volume based on the aggregated distance
-        new_vol=round(new_volume(current_volume, vol_dis), 2)
+        new_vol=new_volume(current_volume, vol_dis)
         if new_vol != current_volume:
             pygame.mixer.music.set_volume(new_vol)
             logging.info('New Volume set: %s', new_vol)
