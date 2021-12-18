@@ -142,7 +142,7 @@ def loop():
             logging.info('New Volume set: %s', new_vol)
         volume_data.append(new_vol)
         current_volume=new_vol
-        time.sleep(0.3)
+        time.sleep(0.1)
 
 def destroy():
     global echo
