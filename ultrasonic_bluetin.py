@@ -15,11 +15,14 @@ import os
 from Bluetin_Echo import Echo
 
 # Define GPIO pin constants.
-TRIGGER_PIN = 23
-ECHO_PIN = 24
+TRIGGER_PIN_1 = 23
+ECHO_PIN_1 = 24
+TRIGGER_PIN_2 = 5
+ECHO_PIN_2 = 6
 # Initialise Sensor with pins, speed of sound.
 speed_of_sound = 340
-echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound)
+echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1)]
+# echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1) , Echo(TRIGGER_PIN_2, ECHO_PIN_2)]
 # Measure Distance 5 times, return average.
 samples = 3
 
@@ -35,11 +38,7 @@ volume_data=[]  # holds the time series of volume data that we use for plotting
 # configure the logfile
 logging.basicConfig(filename='ultrasonic.log', format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
 
-#This set holds the trigger and Echo GPIOs for each connected sensor
-#if you want to add a new sensor just add a a tuple to the sensors set
-sensors = set()
-sensors.add((16,18)) # add first sensor
-#sensors.add((35,37)) # add second sensor
+
 
 pygame.mixer.init() #inits the pygame class
 
@@ -54,42 +53,16 @@ def writePidFile():
 
 
 def setup():
+    global echo
     logging.info("##################################################")
     logging.info("Ultrasonic started up")
     logging.info("##################################################")
-    GPIO.cleanup()
-    GPIO.setmode(GPIO.BOARD)
-    for sens in sensors:
-        GPIO.setup(sens[0], GPIO.OUT)
-        GPIO.setup(sens[1], GPIO.IN)
-        logging.info('Sensor %s initialized!', sens)
-        logging.info("##################################################")
+    echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1)]
 
 
-#this funtion returns the distance from one sensor connected to the respective ports
-def single_sensor_distance(trig_port, echo_port):
-    GPIO.output(trig_port, 0)
-    time.sleep(0.000002)
 
-    GPIO.output(trig_port, 1)
-    time.sleep(0.00001)
-    GPIO.output(trig_port, 0)
-
-
-    while GPIO.input(echo_port) == 0:
-        a = 0
-    time1 = time.time()
-    while GPIO.input(echo_port) == 1:
-        a = 1
-    time2 = time.time()
-
-    during = time2 - time1
-
-    return during * 340 / 2 * 100
-
-
-def echo_single_sensor_distance(trig_port, echo_port):
-       return echo.read('cm', samples)
+def echo_single_sensor_distance(sensor):
+       return echo[sensor].read('cm', samples)
 
 #this function just mocks a sensor for testing
 def mock_single_sensor_distance(trig_port, echo_port):
@@ -99,9 +72,9 @@ def mock_single_sensor_distance(trig_port, echo_port):
 #collect distance from all sensors and provide it as list
 def loop_over_all_sensors():
     distances = set()
-    for sens in sensors:
-        print("I am in sensor loop for sensor :",sens[0], sens[1])
-        distances.add(echo_single_sensor_distance(sens[0], sens[1]))
+    for counter in range(0, len(echo)):
+        print("I am in sensor loop for sensor :", counter)
+        distances.add(echo_single_sensor_distance(counter))
 
     return distances
 
@@ -127,7 +100,7 @@ def aggregated_distance(distances):
 #it also smoothes out the volume gradient
 
 def new_volume(current_volume, dis):
-    new_volume_from_distance = dis/MAXDISTANCE
+    new_volume_from_distance = 1-dis/MAXDISTANCE
     volume = smooth_volume(current_volume, new_volume_from_distance)
     print("CurrentVolume:", current_volume, " New Volume: ", volume)
     return volume
@@ -172,8 +145,9 @@ def loop():
         time.sleep(0.3)
 
 def destroy():
+    global echo
     plot_volume_curve.plot_volume(volume_data) #creates the distance graph file volume_graph.png
-    GPIO.cleanup()
+    echo[0].stop
     pygame.mixer.music.stop()
     logging.info("##################################################")
     logging.info("Ultrasonic terminated orderly")
@@ -186,5 +160,5 @@ if __name__ == "__main__":
         loop()
     except KeyboardInterrupt:
         # Reset GPIO Pins.
-        echo.stop()
+
         destroy() 
