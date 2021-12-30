@@ -32,7 +32,7 @@ samples = 3
 SONGPATH='/home/pi/raspi-dev/rain.mp3' #path to the soundfile that is looped
 MAXDISTANCE=25   #the maximum distance that I consider
 START_VOLUME=0.2 #the starting volume for the sound player
-MAX_VOLUME_STEP=0.1 # how much can the volume change after each measurement cycle
+MAX_VOLUME_STEP=0.05 # how much can the volume change after each measurement cycle
 volume_data=[]  # holds the time series of volume data that we use for plotting
 
 # configure the logfile
@@ -140,6 +140,8 @@ def loop():
         if new_vol != current_volume:
             pygame.mixer.music.set_volume(new_vol)
             logging.info('New Volume set: %s', new_vol)
+        else:
+            logging.info('No volume change')
         volume_data.append(new_vol)
         current_volume=new_vol
         time.sleep(0.1)
