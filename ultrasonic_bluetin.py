@@ -138,7 +138,7 @@ def loop():
         #set the volume based on the aggregated distance
         new_vol=new_volume(current_volume, vol_dis)
         if new_vol != current_volume:
-            pygame.mixer.music.set_volume(new_vol)
+           # pygame.mixer.music.set_volume(new_vol)
             logging.info('New Volume set: %s', new_vol)
         else:
             logging.info('No volume change')
@@ -157,7 +157,7 @@ def destroy():
 
 if __name__ == "__main__":
     writePidFile()
- #   setup()
+    setup()
     try:
         loop()
     except KeyboardInterrupt:
