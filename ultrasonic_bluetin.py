@@ -57,7 +57,7 @@ def setup():
     logging.info("##################################################")
     logging.info("Ultrasonic started up")
     logging.info("##################################################")
-    echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1)]
+    # echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1)]
 
 
 
