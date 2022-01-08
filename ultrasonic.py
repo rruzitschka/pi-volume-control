@@ -109,7 +109,7 @@ def aggregated_distance(distances):
 #it also smoothes out the volume gradient
 
 def new_volume(current_volume, dis):
-    new_volume_from_distance = dis/MAXDISTANCE
+    new_volume_from_distance = 1-dis/MAXDISTANCE
     volume = smooth_volume(current_volume, new_volume_from_distance)
     print("CurrentVolume:", current_volume, " New Volume: ", volume)
     return volume
