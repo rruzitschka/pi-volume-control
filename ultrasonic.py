@@ -14,7 +14,7 @@ import os
 SONGPATH='/home/pi/raspi-dev/rain.mp3' #path to the soundfile that is looped
 MAXDISTANCE=25   #the maximum distance that I consider
 START_VOLUME=0.2 #the starting volume for the sound player
-MAX_VOLUME_STEP=0.1 # how much can the volume change after each measurement cycle
+MAX_VOLUME_STEP=0.05 # how much can the volume change after each measurement cycle
 volume_data=[]  # holds the time series of volume data that we use for plotting
 
 # configure the logfile
@@ -96,12 +96,17 @@ def aggregated_distance(distances):
 # first, add up all the distance values in the set
 
     sum_distance = 0
+    min_distance = MAXDISTANCE
     for dis in distances:
             if dis > MAXDISTANCE:
                  dis = MAXDISTANCE
+            if dis < min_distance:
+                min_distance = dis
             sum_distance += dis
 
-    aggregated_dis = sum_distance/len(distances)
+#    aggregated_dis = sum_distance/len(distances)
+# let's try to report always the minimumdistance measured by any sensor
+    aggregated_dis = min_distance
     return aggregated_dis
 
 
@@ -151,7 +156,7 @@ def loop():
             logging.info('New Volume set: %s', new_vol)
         volume_data.append(new_vol)
         current_volume=new_vol
-        time.sleep(0.3)
+        time.sleep(0.2)
 
 def destroy():
     plot_volume_curve.plot_volume(volume_data) #creates the distance graph file volume_graph.png
