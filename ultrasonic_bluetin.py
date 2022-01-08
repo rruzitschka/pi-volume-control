@@ -18,12 +18,12 @@ from Bluetin_Echo import Echo
 TRIGGER_PIN_1 = 23
 ECHO_PIN_1 = 24
 TRIGGER_PIN_2 = 19
-ECHO_PIN_2 = 16
+ECHO_PIN_2 = 26
 # Initialise Sensor with pins, speed of sound.
 speed_of_sound = 340
 #echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1)]
 echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1) , Echo(TRIGGER_PIN_2, ECHO_PIN_2)]
-# Measure Distance 5 times, return average.
+# Measure Distance 3 times, return average.
 samples = 3
 
 
