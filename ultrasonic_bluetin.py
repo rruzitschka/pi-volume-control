@@ -17,12 +17,12 @@ from Bluetin_Echo import Echo
 # Define GPIO pin constants.
 TRIGGER_PIN_1 = 23
 ECHO_PIN_1 = 24
-TRIGGER_PIN_2 = 5
-ECHO_PIN_2 = 6
+TRIGGER_PIN_2 = 19
+ECHO_PIN_2 = 16
 # Initialise Sensor with pins, speed of sound.
 speed_of_sound = 340
-echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1)]
-# echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1) , Echo(TRIGGER_PIN_2, ECHO_PIN_2)]
+#echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1)]
+echo = [Echo(TRIGGER_PIN_1, ECHO_PIN_1) , Echo(TRIGGER_PIN_2, ECHO_PIN_2)]
 # Measure Distance 5 times, return average.
 samples = 3
 
@@ -30,8 +30,8 @@ samples = 3
 
 
 SONGPATH='/home/pi/raspi-dev/rain.mp3' #path to the soundfile that is looped
-MAXDISTANCE=25   #the maximum distance that I consider
-START_VOLUME=0.2 #the starting volume for the sound player
+MAXDISTANCE=27   #the maximum distance that I consider
+START_VOLUME=0 #the starting volume for the sound player
 MAX_VOLUME_STEP=0.05 # how much can the volume change after each measurement cycle
 volume_data=[]  # holds the time series of volume data that we use for plotting
 
@@ -87,12 +87,17 @@ def aggregated_distance(distances):
 # first, add up all the distance values in the set
 
     sum_distance = 0
+    min_distance = MAXDISTANCE
     for dis in distances:
             if dis > MAXDISTANCE:
                  dis = MAXDISTANCE
+            if dis < min_distance:
+                min_distance = dis
             sum_distance += dis
 
-    aggregated_dis = sum_distance/len(distances)
+#    aggregated_dis = sum_distance/len(distances)
+# let's try to report always the minimumdistance measured by any sensor
+    aggregated_dis = min_distance
     return aggregated_dis
 
 
